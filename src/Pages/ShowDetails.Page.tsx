@@ -2,13 +2,20 @@ import { FC } from "react";
 import CastCard from "../Components/CastCard";
 import GenrePill from "../Components/GenrePill";
 import withRouter, { WithRouterProps } from "../hocs/withRouter";
+import { Link } from "react-router-dom";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
+import { connect } from "react-redux";
+import { State } from "../store";
 
-type ShowDetailPageProps = WithRouterProps;
+type ShowDetailPageProps = {} & WithRouterProps;
 
 const ShowDetailPage: FC<WithRouterProps> = ({ params }) => {
-  console.log(params);
+  console.log("ShowDetailPage showId",params.showId);
   return (
     <div className="mt-2">
+      <Link to="/">
+        <IoArrowBackCircleOutline className="text-2xl" />
+      </Link>
       <h2 className="text-4xl font-semibold tracking-wide">The Witcher</h2>
       <div className="flex space-x-3 my-2 bg-gray-300 p-2 rounded-sm">
         <GenrePill name="Action" />
@@ -94,4 +101,9 @@ const ShowDetailPage: FC<WithRouterProps> = ({ params }) => {
   );
 };
 
-export default withRouter(ShowDetailPage);
+const mapStateToProps = (state: State, ownProps: ShowDetailPageProps) => {
+  console.log("mapStateToProps showId", ownProps.params.showId);
+  return {};
+};
+
+export default withRouter(connect(mapStateToProps)(ShowDetailPage));
