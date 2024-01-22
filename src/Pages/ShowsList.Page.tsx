@@ -1,34 +1,37 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import SearchBar from "../Components/SearchBar";
 import ShowCard from "../Components/ShowCard";
-import { searchShows } from "../api";
-import { Show } from "../model/Show";
-import { showsLoadedAction, showsQueryChangeAction } from "../actions/Shows";
-import { connect } from "react-redux";
+import { showsQueryChangeAction } from "../actions/Shows";
+import { ConnectedProps, connect } from "react-redux";
 import { State } from "../store";
-import { showsQuerySelector, showsSelector } from "../selectors/Shows";
+import {
+  showLoadingSelector,
+  showsQuerySelector,
+  showsSelector,
+} from "../selectors/Shows";
+import LoadingSpinner from "../Components/LoadingSpinner";
+import { searchShows } from "../api";
 
-type ShowListPageProps = {
-  shows: Show[];
-  query: string;
-  queryChange: (query: string) => void;
-};
+type ShowListPageProps = {} & ReduxProps;
 
 const ShowListPage: FC<ShowListPageProps> = ({
   shows,
   query,
   queryChange,
+  loading,
 }) => {
+ 
   return (
     <div className="mt-2">
-      <SearchBar
-        value={query}
-        onChange={(e) => queryChange(e.target.value)}
-      />
+      <div className="flex items-center">
+        <SearchBar
+          value={query}
+          onChange={(e) => queryChange(e.target.value)}
+        />
+        {loading && <LoadingSpinner className="ml-4 text-2xl" />}
+      </div>
       <div className="flex flex-wrap justify-center">
-        {shows.map((s) => (
-          <ShowCard key={s.id} show={s} />
-        ))}
+        {shows && shows.map((s) => <ShowCard key={s.id} show={s} />)}
       </div>
     </div>
   );
@@ -38,10 +41,14 @@ const mapStateToProps = (state: State) => {
   return {
     shows: showsSelector(state),
     query: showsQuerySelector(state),
+    loading: showLoadingSelector(state),
   };
 };
 const mapDisparchToProps = {
   queryChange: showsQueryChangeAction,
 };
 
-export default connect(mapStateToProps, mapDisparchToProps)(ShowListPage);
+const connetor = connect(mapStateToProps, mapDisparchToProps);
+type ReduxProps = ConnectedProps<typeof connetor>;
+
+export default connetor(ShowListPage);
