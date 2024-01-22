@@ -33,7 +33,7 @@ const ShowDetailPage: FC<ShowDetailPageProps> = ({
       </Link>
       <h2 className="text-4xl font-semibold tracking-wide">{show.name}</h2>
       <div className="flex space-x-3 my-2 bg-gray-300 p-2 rounded-sm">
-        {show.genres.map((genre) => (
+        {show.genres.map((genre:any) => (
           <GenrePill name={genre} key={genre} />
         ))}
       </div>
