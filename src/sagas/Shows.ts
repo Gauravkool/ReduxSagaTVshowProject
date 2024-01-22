@@ -1,7 +1,7 @@
 import { call, put } from "redux-saga/effects";
 import { loadShowDetail, searchShows } from "../api";
 import { Action } from "../actions";
-import { showDetailLoadedAction, showsLoadedAction } from "../actions/Shows";
+import { showDetailLoadedAction, showsLoadedAction } from "../slices/Shows";
 
 export function* fetchShows(action: Action): Generator<any, any, any> {
   const showsAndCast = yield call(searchShows, action.payload);

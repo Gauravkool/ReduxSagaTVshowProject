@@ -1,7 +1,7 @@
 import { FC } from "react";
 import SearchBar from "../Components/SearchBar";
 import ShowCard from "../Components/ShowCard";
-import { showsQueryChangeAction } from "../actions/Shows";
+
 import { ConnectedProps, connect } from "react-redux";
 import { State } from "../store";
 import {
@@ -10,7 +10,8 @@ import {
   showsSelector,
 } from "../selectors/Shows";
 import LoadingSpinner from "../Components/LoadingSpinner";
-import { searchShows } from "../api";
+import { showsQueryChangeAction } from "../slices/Shows";
+import { Show } from "../model/Show";
 
 type ShowListPageProps = {} & ReduxProps;
 
@@ -31,7 +32,7 @@ const ShowListPage: FC<ShowListPageProps> = ({
         {loading && <LoadingSpinner className="ml-4 text-2xl" />}
       </div>
       <div className="flex flex-wrap justify-center">
-        {shows && shows.map((s) => <ShowCard key={s.id} show={s} />)}
+        {shows && shows.map((s:Show) => <ShowCard key={s.id} show={s} />)}
       </div>
     </div>
   );
